@@ -36,6 +36,7 @@ Route::controllers([
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('home', 'UserController@home');
+    Route::post('home', 'UserController@home');
     Route::get('edit', 'UserController@edit');
     Route::post('edit', 'UserController@updater');
 
@@ -48,6 +49,7 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::get('admin', 'adminController@teamPage');
+Route::post('admin', 'adminController@generateTeams');
 
 //if (Auth::user()) {
 //    Route::get('home', 'UserController@home');

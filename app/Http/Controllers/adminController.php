@@ -107,4 +107,9 @@ class adminController extends Controller
         return $users;
 
     }
+
+
+    public function generateTeams() {
+
+    }
 }

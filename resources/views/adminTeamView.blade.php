@@ -8,7 +8,12 @@
     } else{
             echo $currentTeam;
         }?></h1>
-    <tr>
+        <form class="form-horizontal" role="form" method="POST" action="home">
+
+
+            {!! Form::submit('Submit', ['class' => 'btn btn-primary form-control']) !!}
+        </form>
+        <a href="home" class="btn btn-primary" style="margin: 0 auto;">Generate Teams</a>
     <th>Name</th>
     <th>Team id</th>
     <th>Team style</th>
@@ -33,7 +38,9 @@
                 <th>Highest Programming Class Taken</th>
                 <th>Taken Algorithms</th>
                 </tr>";
+
             }
+
 
         ?>
 
@@ -47,6 +54,8 @@
         </tr>
     @endforeach
 </table>
+
+
 @stop
 
 {{--
