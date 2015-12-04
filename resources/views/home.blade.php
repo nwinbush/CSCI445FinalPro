@@ -30,7 +30,13 @@
                         </div>
 
                         <div class="row">
-                            <label class="col-md-4 control-label">Taken Algorithms</label>{{ $UserData->taken_algorithms }}
+                            <label class="col-md-4 control-label">Taken Algorithms</label>
+                            <?php
+                                if($UserData->taken_algorithms)
+                                    echo "Yes";
+                                else
+                                    echo "No";
+                            ?>
                         </div>
 
                         <div class="row" style="text-align: center;">

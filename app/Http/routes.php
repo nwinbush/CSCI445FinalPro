@@ -51,6 +51,7 @@ Route::group(['middleware' => 'guest'], function () {
 Route::get('admin', 'adminController@teamPage');
 Route::post('admin', 'adminController@generateTeams');
 
+
 //if (Auth::user()) {
 //    Route::get('home', 'UserController@home');
 //    Route::get('edit', 'UserController@edit');
