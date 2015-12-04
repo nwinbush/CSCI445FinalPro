@@ -91,9 +91,6 @@ class UserController extends Controller
         //test below
         //this adds the key/value pair to the array if it doesn't already exists, so we'll add no if they didn't select algorithms
         $requests = array_add($requests, 'taken_algorithms', false);
-        foreach($requests as $request) {
-            echo $request, '<br>';
-        }
         $UserData->update($requests);
         //return $request;
         return view('home', compact('UserData'));

@@ -4,16 +4,13 @@
 <table class="table table-striped table-bordered">
     <?php $currentTeam = $students->first()->team_id; ?>
     <h1><?php if(empty($currentTeam)){
-        echo "Students not on a team";
-    } else{
-            echo $currentTeam;
-        }?></h1>
-        <form class="form-horizontal" role="form" method="POST" action="home">
+            echo "Students not on a team";
+        } else{
+                echo $currentTeam;
+        }?>
+    </h1>
 
-
-            {!! Form::submit('Submit', ['class' => 'btn btn-primary form-control']) !!}
-        </form>
-        <a href="home" class="btn btn-primary" style="margin: 0 auto;">Generate Teams</a>
+    <a href="home" class="btn btn-primary" style="margin: 0 auto;">Generate Teams</a>
     <th>Name</th>
     <th>Team id</th>
     <th>Team style</th>
@@ -50,7 +47,16 @@
             <td>{{ $UserData->team_style }}</td>
             <td>{{ $UserData->preferred_language }}</td>
             <td>{{ $UserData->taken_programming_class }}</td>
-            <td>{{ $UserData->taken_algorithms }}</td>
+            <td><?php
+                if($UserData->taken_algorithms )
+                    echo "Yes";
+                else if($UserData->taken_algorithms == false && $UserData->team_style == false)
+                    {}
+                else
+                    echo "No";
+
+                ?>
+            </td>
         </tr>
     @endforeach
 </table>
