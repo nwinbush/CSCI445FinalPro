@@ -519,4 +519,6 @@ return array(
     'classTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'languageTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'styleTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'userDataTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'userTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
 );
