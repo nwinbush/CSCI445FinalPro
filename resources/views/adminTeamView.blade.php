@@ -7,8 +7,12 @@
         <form class="form-horizontal" role="form" method="POST" action="admin">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
             <div>
-                <label style="float:left; margin-top:10px; margin-right: 10px;">Members Per Team</label>
-                {!!Form::selectRange('members', 3, 5)!!}
+                <label style="float:left; margin-top:10px; margin-right: 10px;">Max Members Per Team</label>
+                {!!Form::selectRange('mMax', 4, 6)!!}
+            </div>
+            <div>
+                <label style="float:left; margin-top:10px; margin-right: 10px;">Min Members Per Team</label>
+                {!!Form::selectRange('mMin', 2, 4)!!}
             </div>
             {!! Form::submit('Generate Teams', ['class' => 'btn btn-primary form-control']) !!}
         </form>
@@ -18,7 +22,7 @@
     <h1><?php if(empty($currentTeam)){
             echo "Students not on a team";
         } else{
-                echo $currentTeam;
+                echo "Team " + $currentTeam;
         }?>
     </h1>
 

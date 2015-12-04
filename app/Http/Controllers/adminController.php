@@ -114,31 +114,58 @@ class adminController extends Controller
 
     public function generateTeams()
     {
-        $mPerTeam = Input::get('members');
+        $maxPerTeam = Input::get('mMax');
+        $minPerTeam = Input::get('mMin');
         $studentCount = UserData::count();
-        $totTeams = $studentCount/$mPerTeam;
-        if($studentCount % $mPerTeam){
+        $totTeams = $studentCount/$maxPerTeam;
+        if($studentCount % $maxPerTeam){
             $totTeams++;
         }
 
 
         $totTeams = intval($totTeams);
 
-        echo $totTeams;
+        //echo $totTeams;
         $students = UserData::all();
         $teamsMade = 0;
         $sAdded = 0;
 
+        $teams = array();
+
         while($teamsMade < $totTeams){
             $teamsMade++; //This will be the same as the Team_id
             $mAdded=0;
-            while($mAdded < $mPerTeam && $sAdded < $studentCount){
+
+            while($mAdded < $maxPerTeam && $sAdded < $studentCount){
                 $mAdded++;
+
                 $students[$sAdded]->update(['team_id' => $teamsMade]);
                 $sAdded++;
             }
+            $teams[$teamsMade] = $mAdded;
 
         }
+
+        foreach($teams as $team => $mCount)
+        {
+            while($mCount < $minPerTeam)
+            {
+                foreach($teams as $tTeam => $tmCount)
+                {
+                    while($tmCount > $minPerTeam && $mCount < $minPerTeam)
+                    {
+                        $UserData = UserData::firstOrNew(['team_id' => $tTeam]);
+                        $UserData->update(['team_id' => $team]);
+                        $tmCount--;
+                        $mCount++;
+                        $teams[$team]++;
+                        $teams[$tTeam]--;
+                    }
+                }
+            }
+        }
+
+        //print_r($teams);
         $students = UserData::orderBy('team_id')->get();
         return view('adminTeamView', compact('students'));
 
