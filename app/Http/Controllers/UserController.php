@@ -86,12 +86,15 @@ class UserController extends Controller
     public function updater()
     {
         $classesRequest = array_only(Request::all(), array('262', '261', '306', '406'));
-        $request = array_except(Request::all(), array('_token', '262', '261', '306', '406'));
+        $requests = array_except(Request::all(), array('_token', '262', '261', '306', '406'));
         $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
         //test below
         //this adds the key/value pair to the array if it doesn't already exists, so we'll add no if they didn't select algorithms
-        $request = array_add($request, 'taken_algorithms', 'No');
-        $UserData->update($request);
+        $requests = array_add($requests, 'taken_algorithms', false);
+        foreach($requests as $request) {
+            echo $request, '<br>';
+        }
+        $UserData->update($requests);
         //return $request;
         return view('home', compact('UserData'));
         //test above
