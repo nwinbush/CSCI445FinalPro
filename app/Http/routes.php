@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('home', 'UserController@home');
     Route::get('edit', 'UserController@edit');
     Route::post('edit', 'UserController@updater');
+    Route::get('admin', 'adminController@teamPage');
+    Route::post('admin', 'adminController@generateTeams');
 
 });
 Route::group(['middleware' => 'guest'], function () {
@@ -48,8 +50,7 @@ Route::group(['middleware' => 'guest'], function () {
     //Route::get('edit', 'Auth\AuthController@getLogin');
 });
 
-Route::get('admin', 'adminController@teamPage');
-Route::post('admin', 'adminController@generateTeams');
+
 
 
 //if (Auth::user()) {

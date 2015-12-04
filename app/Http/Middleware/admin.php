@@ -17,7 +17,7 @@ class admin
      */
     public function handle($request, Closure $next)
     {
-        $UserData = UserData::firstOrNew(['user_id' => Auth::user()->id]);
+        $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
         if(!$UserData->isAdmin == 0){
             return redirect('home');
         }

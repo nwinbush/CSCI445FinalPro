@@ -2,6 +2,18 @@
 
 @section('content')
 <table class="table table-striped table-bordered">
+
+    <div class="panel-body">
+        <form class="form-horizontal" role="form" method="POST" action="admin">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+            <div>
+                <label style="float:left; margin-top:10px; margin-right: 10px;">Members Per Team</label>
+                {!!Form::selectRange('members', 3, 5)!!}
+            </div>
+            {!! Form::submit('Generate Teams', ['class' => 'btn btn-primary form-control']) !!}
+        </form>
+    </div>
+    <br>
     <?php $currentTeam = $students->first()->team_id; ?>
     <h1><?php if(empty($currentTeam)){
             echo "Students not on a team";
@@ -10,7 +22,7 @@
         }?>
     </h1>
 
-    <a href="home" class="btn btn-primary" style="margin: 0 auto;">Generate Teams</a>
+
     <th>Name</th>
     <th>Team id</th>
     <th>Team style</th>
@@ -19,6 +31,7 @@
     <th>Taken Algorithms</th>
     </tr>
 
+    <br>
     @foreach($students as $UserData)
         <?php
             if($UserData->team_id != $currentTeam){
@@ -50,11 +63,10 @@
             <td><?php
                 if($UserData->taken_algorithms )
                     echo "Yes";
-                else if($UserData->taken_algorithms == false && $UserData->team_style == false)
+                else if($UserData->taken_algorithms == false & $UserData->team_style == false)
                     {}
                 else
                     echo "No";
-
                 ?>
             </td>
         </tr>

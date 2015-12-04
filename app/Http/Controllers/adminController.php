@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\UserData;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\Admin;
+use Request;
+use Input;
 
 class adminController extends Controller
 {
@@ -16,7 +19,7 @@ class adminController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin');
+        //$this->middleware('admin');
     }
 
     /**
@@ -109,7 +112,35 @@ class adminController extends Controller
     }
 
 
-    public function generateTeams() {
+    public function generateTeams()
+    {
+        $mPerTeam = Input::get('members');
+        $studentCount = UserData::count();
+        $totTeams = $studentCount/$mPerTeam;
+        if($studentCount % $mPerTeam){
+            $totTeams++;
+        }
+
+
+        $totTeams = intval($totTeams);
+
+        echo $totTeams;
+        $students = UserData::all();
+        $teamsMade = 0;
+        $sAdded = 0;
+
+        while($teamsMade < $totTeams){
+            $teamsMade++; //This will be the same as the Team_id
+            $mAdded=0;
+            while($mAdded < $mPerTeam && $sAdded < $studentCount){
+                $mAdded++;
+                $students[$sAdded]->update(['team_id' => $teamsMade]);
+                $sAdded++;
+            }
+
+        }
+        $students = UserData::orderBy('team_id')->get();
+        return view('adminTeamView', compact('students'));
 
     }
 }
