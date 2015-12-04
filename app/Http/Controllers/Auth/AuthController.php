@@ -8,6 +8,8 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Auth;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -67,6 +69,7 @@ class AuthController extends Controller
         UserData::create([
             'name' => $user->name,
             'id' => $user->id,
+            'isAdmin' => 0
         ]);
 
         return $user;

@@ -56,6 +56,7 @@
                                     <a href="{{ URL::to('/password/email') }}">Forgot Your Password?</a>
                                
 									<a href="{{ URL::to('auth/register') }}" style="margin-left: 10px;">Register</a>
+
 								</div>
                             </div>
                         </form>

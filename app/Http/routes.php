@@ -47,7 +47,7 @@ Route::group(['middleware' => 'guest'], function () {
     //Route::get('edit', 'Auth\AuthController@getLogin');
 });
 
-
+Route::get('admin', 'adminController@teamPage');
 
 //if (Auth::user()) {
 //    Route::get('home', 'UserController@home');

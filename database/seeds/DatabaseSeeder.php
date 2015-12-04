@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(styleTableSeeder::class);
         $this->call(classTableSeeder::class);
         $this->call(UserTableSeeder::class);
-				$this->call(userDataTableSeeder::class);
+        $this->call(userDataTableSeeder::class);
 
         Model::reguard();
     }
@@ -122,8 +122,8 @@ class userDataTableSeeder extends Seeder
     {
         DB::table('UserData')->delete();
 
-        UserData::create(['id' => '1', 'name' => 'Mickey,Mouse',]);
-        UserData::create(['id' => '2', 'name' => 'Donald,Duck',]);
+        UserData::create(['id' => '1', 'name' => 'Mickey,Mouse']);
+        UserData::create(['id' => '2', 'name' => 'Donald,Duck']);
         UserData::create(['id' => '3', 'name' => 'Jane,Jetson']);
         UserData::create(['id' => '4', 'name' => 'Frodo,Baggins']);
         UserData::create(['id' => '5', 'name' => 'Bilbo,Baggins']);

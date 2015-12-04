@@ -85,11 +85,16 @@ class UserController extends Controller
 
     public function updater()
     {
-
-
         $classesRequest = array_only(Request::all(), array('262', '261', '306', '406'));
         $request = array_except(Request::all(), array('_token', '262', '261', '306', '406'));
         $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
+        //test below
+        //this adds the key/value pair to the array if it doesn't already exists, so we'll add no if they didn't select algorithms
+        $request = array_add($request, 'taken_algorithms', 'No');
+        $UserData->update($request);
+        //return $request;
+        return view('home', compact('UserData'));
+        //test above
         if($UserData->count() == 2){
             $request = array_add($request, 'id', Auth::user()->id);
             $request = array_add($request, 'name', Auth::user()->name);
@@ -118,7 +123,7 @@ class UserController extends Controller
     public function home(){
         //return "HELLO";
         //$UserData = UserData::findOrFail(Auth::user()->id);
-				
+
         $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
         return view('home', compact('UserData'));
 

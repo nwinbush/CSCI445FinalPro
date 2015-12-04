@@ -13,6 +13,13 @@ class CreateTables extends Migration
     public function up()
     {
 
+        Schema::dropIfExists('UserData');
+        Schema::dropIfExists('teams');
+        Schema::dropIfExists('classesTaken');
+        Schema::dropIfExists('languages');
+        Schema::dropIfExists('teamStyle');
+        Schema::dropIfExists('classes');
+
         Schema::create('languages', function (Blueprint $table) {
             $table->string('language');
             $table->timestamps();
@@ -28,20 +35,24 @@ class CreateTables extends Migration
         Schema::create('UserData', function (Blueprint $table) {
             $table->integer('id')->references('id')->on('users');
             $table->string('name');
-            $table->string('preferred_language')->references('languages')->on('language');
-            $table->string('team_style')->references('teamStyle')->on('style');
+            $table->string('preferred_language')->references('languages')->on('language')->nullable();
+            $table->string('team_style')->references('teamStyle')->on('style')->nullable();
             $table->integer('team_id')->references('id')->on('teams')->nullable();
+            $table->string('taken_programming_class')->references('course_num')->on('classes')->nullable();
+            $table->boolean('taken_algorithms')->nullable();
+            $table->boolean('isAdmin')->default(false);
             $table->nullableTimestamps();
         });
         Schema::create('classes', function (Blueprint $table) {
             $table->string('course_num');
             $table->timestamps();
         });
-        Schema::create('classesTaken', function (Blueprint $table) {
+        /*Schema::create('classesTaken', function (Blueprint $table) {
+						$table->increments('id');
             $table->integer('user_id')->references('id')->on('users');
             $table->string('course_num')->references('classes')->on('course_num');
             $table->timestamps();
-        });
+        });*/
 
     }
 
@@ -52,11 +63,11 @@ class CreateTables extends Migration
      */
     public function down()
     {
-        Schema::drop('UserData');
-        Schema::drop('teams');
-        Schema::drop('classesTaken');
-        Schema::drop('languages');
-        Schema::drop('teamStyle');
-        Schema::drop('classes');
+        Schema::dropIfExists('UserData');
+        Schema::dropIfExists('teams');
+        Schema::dropIfExists('classesTaken');
+        Schema::dropIfExists('languages');
+        Schema::dropIfExists('teamStyle');
+        Schema::dropIfExists('classes');
     }
 }
