@@ -124,8 +124,15 @@ class UserController extends Controller
         //return "HELLO";
         //$UserData = UserData::findOrFail(Auth::user()->id);
 
+
         $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
+
+        if ($UserData -> isAdmin) {
+            $students = UserData::orderBy('team_id')->get();
+            return view('adminTeamView', compact('students'));
+        }
         return view('home', compact('UserData'));
+
 
     }
 

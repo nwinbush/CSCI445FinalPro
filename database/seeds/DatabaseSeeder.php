@@ -122,7 +122,7 @@ class userDataTableSeeder extends Seeder
     {
         DB::table('UserData')->delete();
 
-        UserData::create(['id' => '1', 'name' => 'Mickey,Mouse']);
+        UserData::create(['id' => '1', 'name' => 'Mickey,Mouse', 'isAdmin' => true]);
         UserData::create(['id' => '2', 'name' => 'Donald,Duck']);
         UserData::create(['id' => '3', 'name' => 'Jane,Jetson']);
         UserData::create(['id' => '4', 'name' => 'Frodo,Baggins']);
