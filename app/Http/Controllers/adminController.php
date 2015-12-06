@@ -134,24 +134,23 @@ class adminController extends Controller
         $this->makeInitTeams('dontcare', $maxPerTeam);
         //Makes sure teams are not below min count
 
-        foreach($teams as $team => $mCount)
-        {
-            while($mCount < $minPerTeam)
-            {
-                foreach($teams as $tTeam => $tmCount)
-                {
-                    while($tmCount > $minPerTeam && $mCount < $minPerTeam)
-                    {
-                        $UserData = UserData::firstOrNew(['team_id' => $tTeam]);
-                        $UserData->update(['team_id' => $team]);
-                        $tmCount--;
-                        $mCount++;
-                        $teams[$team]++;
-                        $teams[$tTeam]--;
+        if($teams) {
+            foreach ($teams as $team => $mCount) {
+                while ($mCount < $minPerTeam) {
+                    foreach ($teams as $tTeam => $tmCount) {
+                        while ($tmCount > $minPerTeam && $mCount < $minPerTeam) {
+                            $UserData = UserData::firstOrNew(['team_id' => $tTeam]);
+                            $UserData->update(['team_id' => $team]);
+                            $tmCount--;
+                            $mCount++;
+                            $teams[$team]++;
+                            $teams[$tTeam]--;
+                        }
                     }
                 }
             }
         }
+
 
         //print_r($teams);
         $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
@@ -162,11 +161,11 @@ class adminController extends Controller
 
     public function teamStyleCount($style)
     {
-        return UserData::where('isAdmin', '=', false)->where('team_style', '=', $style)->count();
+        return UserData::where('isAdmin', '=', false)->where('team_style', '=', $style)->where('team_id', null)->count();
     }
     public function teamStyleSort($style)
     {
-        return UserData::where('isAdmin', '=', false)->where('team_style', '=', $style)
+        return UserData::where('isAdmin', '=', false)->where('team_style', '=', $style)->where('team_id', null)
             ->orderby('taken_programming_class')->get();
     }
 
@@ -189,40 +188,41 @@ class adminController extends Controller
         global $teamsMade, $teams;
         $count = $this->teamStyleCount($style);
 
-
-        $totTeams = $count/$maxPerTeam;
-        if($count % $maxPerTeam){
-            $totTeams++;
-        }
-
-        $totTeams = intval($totTeams);
-        //echo $socTeams;
-
-        $students = $this->teamStyleSort($style);
-
-        $sAdded = 0;
-
-        $students = $this->classSort($students);
-        //print_r($socStudents);
-
-        //Creates Initial Teams
-        //echo $teamsMade;
-        $totTeams += $teamsMade;
-        echo "<br> totTeams: ".$totTeams." totStudents: ".$count;
-        while($teamsMade < $totTeams){
-            $teamsMade++; //This will be the same as the Team_id
-            $mAdded=0;
-
-            while($mAdded < $maxPerTeam && $sAdded < $count){
-                $mAdded++;
-
-                $students[$sAdded]->update(['team_id' => $teamsMade]);
-                $sAdded++;
+        if($count) {
+            $totTeams = $count / $maxPerTeam;
+            if ($count % $maxPerTeam) {
+                $totTeams++;
             }
-            $teams[$teamsMade] = $mAdded;
 
+            $totTeams = intval($totTeams);
+            //echo $socTeams;
+
+            $students = $this->teamStyleSort($style);
+
+            $sAdded = 0;
+
+            $students = $this->classSort($students);
+            //print_r($socStudents);
+
+            //Creates Initial Teams
+            //echo $teamsMade;
+            $totTeams += $teamsMade;
+            while ($teamsMade < $totTeams) {
+                $teamsMade++; //This will be the same as the Team_id
+                $mAdded = 0;
+
+                while ($mAdded < $maxPerTeam && $sAdded < $count) {
+                    $mAdded++;
+
+                    $students[$sAdded]->update(['team_id' => $teamsMade]);
+                    $sAdded++;
+                }
+                $teams[$teamsMade] = $mAdded;
+
+            }
+            return $students;
         }
+        return null;
 
-        return $students;
     }
 }
