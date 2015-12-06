@@ -14,19 +14,19 @@ use Input;
 
 
 
+
+
 class adminController extends Controller
 {
+    public static $teamsMade = 0;
     /**
      * adminController constructor.
      */
-    public $teamsMade;
-    public $teams;
 
     public function __construct()
     {
         //$this-
-        $teamsMade = 0;
-        $teams = array();
+
     }
 
     /**
@@ -122,6 +122,8 @@ class adminController extends Controller
 
     public function generateTeams()
     {
+        global $teamsMade;
+        $teamsMade = 0;
 
         $maxPerTeam = Input::get('mMax');
         $minPerTeam = Input::get('mMin');
@@ -183,6 +185,7 @@ class adminController extends Controller
 
     public function makeInitTeams($style, $maxPerTeam)
     {
+        global $teamsMade;
         $count = $this->teamStyleCount($style);
 
 
@@ -196,7 +199,6 @@ class adminController extends Controller
 
         $students = $this->teamStyleSort($style);
 
-        $teamsMade = 0;
         $sAdded = 0;
 
         $teams = array();
@@ -204,6 +206,9 @@ class adminController extends Controller
         //print_r($socStudents);
 
         //Creates Initial Teams
+        //echo $teamsMade;
+        $totTeams += $teamsMade;
+        echo "<br> totTeams: ".$totTeams." totStudents: ".$count;
         while($teamsMade < $totTeams){
             $teamsMade++; //This will be the same as the Team_id
             $mAdded=0;
@@ -215,6 +220,7 @@ class adminController extends Controller
                 $sAdded++;
             }
             $teams[$teamsMade] = $mAdded;
+
         }
 
         return $students;
