@@ -19,6 +19,7 @@ use Input;
 class adminController extends Controller
 {
     public static $teamsMade = 0;
+    public static $teams = array();
     /**
      * adminController constructor.
      */
@@ -122,7 +123,7 @@ class adminController extends Controller
 
     public function generateTeams()
     {
-        global $teamsMade;
+        global $teamsMade,$teams;
         $teamsMade = 0;
 
         $maxPerTeam = Input::get('mMax');
@@ -133,7 +134,7 @@ class adminController extends Controller
         $this->makeInitTeams('dontcare', $maxPerTeam);
         //Makes sure teams are not below min count
 
-        /*foreach($teams as $team => $mCount)
+        foreach($teams as $team => $mCount)
         {
             while($mCount < $minPerTeam)
             {
@@ -150,7 +151,7 @@ class adminController extends Controller
                     }
                 }
             }
-        }*/
+        }
 
         //print_r($teams);
         $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
@@ -185,23 +186,22 @@ class adminController extends Controller
 
     public function makeInitTeams($style, $maxPerTeam)
     {
-        global $teamsMade;
+        global $teamsMade, $teams;
         $count = $this->teamStyleCount($style);
 
 
-        $teams = $count/$maxPerTeam;
+        $totTeams = $count/$maxPerTeam;
         if($count % $maxPerTeam){
-            $teams++;
+            $totTeams++;
         }
 
-        $totTeams = intval($teams);
+        $totTeams = intval($totTeams);
         //echo $socTeams;
 
         $students = $this->teamStyleSort($style);
 
         $sAdded = 0;
 
-        $teams = array();
         $students = $this->classSort($students);
         //print_r($socStudents);
 
