@@ -134,6 +134,17 @@ class adminController extends Controller
         $this->makeInitTeams('dontcare', $maxPerTeam);
         //Makes sure teams are not below min count
 
+        $students = UserData::where('isAdmin', false)->orderby('team_id')->get();
+        $currentTeam = 0;
+        $teams = array();
+        foreach($students as $student)
+        {
+            if($student->team_id != $currentTeam) {
+                $currentTeam = $student->team_id;
+                $teams[$currentTeam]=0;
+            }
+            $teams[$currentTeam]++;
+        }
         if($teams) {
             foreach ($teams as $team => $mCount) {
                 while ($mCount < $minPerTeam) {
@@ -195,6 +206,7 @@ class adminController extends Controller
             }
 
             $totTeams = intval($totTeams);
+            $totTeams += $teamsMade;
             //echo $socTeams;
 
             $students = $this->teamStyleSort($style);
@@ -206,7 +218,7 @@ class adminController extends Controller
 
             //Creates Initial Teams
             //echo $teamsMade;
-            $totTeams += $teamsMade;
+
             while ($teamsMade < $totTeams) {
                 $teamsMade++; //This will be the same as the Team_id
                 $mAdded = 0;
