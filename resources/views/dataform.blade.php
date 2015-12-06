@@ -25,7 +25,7 @@
                             <br>
                             <div>
                                 <label style="margin-right: 15px; margin-bottom: 20px;">Preferred Language</label>
-                                {!! Form::select('preferred_language', array('C/C++' => 'C/C++', 'Java' => 'Java', 'Python' => 'Python')) !!}
+                                {!! Form::select('preferred_language', array('c' => 'C/C++', 'java' => 'Java', 'python' => 'Python')) !!}
 
                             </div>
 
@@ -53,7 +53,7 @@
                             <div>
                                 <label style="float:left;">Team Style</label>
                                 <div style="float:left; position: relative; left:78px; ">
-                                    {!! Form::select('team_style', array('Social' => 'Social Team', 'Competitive' => 'Competitive Team', "Don't Care" => "Don't care")) !!}
+                                    {!! Form::select('team_style', array('social' => 'Social Team', 'competitive' => 'Competitive Team', "dontcare" => "Don't care")) !!}
                                 </div>
                             </div>
                             <br>

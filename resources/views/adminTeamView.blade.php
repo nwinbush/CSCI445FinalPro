@@ -2,19 +2,19 @@
 
 @section('content')
 <table class="table table-striped table-bordered">
-
+    <h1>{{$UserData->name}}</h1>
     <div class="panel-body">
         <form class="form-horizontal" role="form" method="POST" action="admin">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-            <div>
-                <label style="float:left; margin-top:10px; margin-right: 10px;">Max Members Per Team</label>
-                {!!Form::selectRange('mMax', 4, 6)!!}
+            <input type="hidden" name="_token" value="{{ csrf_token() }}"/
+            <div style="vertical-align:middle; line-height:2em; margin:10px;">
+                <label style="float:left; margin-right: 10px;">Max Members Per Team</label>
+                {!!Form::selectRange('mMax', 4, 6, null, ['style' => 'width:50px;'])!!}
             </div>
-            <div>
-                <label style="float:left; margin-top:10px; margin-right: 10px;">Min Members Per Team</label>
-                {!!Form::selectRange('mMin', 2, 4)!!}
+            <div style="vertical-align:middle; line-height:2em; margin: 10px;">
+                <label style="float:left; margin-right: 16px;">Min Members Per Team</label>
+                {!!Form::selectRange('mMin', 2, 4, null, ['style' => 'margin-left:3px; width:50px;'])!!}
             </div>
-            {!! Form::submit('Generate Teams', ['class' => 'btn btn-primary form-control']) !!}
+            {!! Form::submit('Generate Teams', array('class' => 'btn btn-primary form-control', 'style' => 'width:250px; ')) !!}
         </form>
     </div>
     <br>
@@ -61,8 +61,27 @@
         <tr>
             <td>{{ $UserData->name }}</td>
             <td>{{ $UserData->team_id }}</td>
-            <td>{{ $UserData->team_style }}</td>
-            <td>{{ $UserData->preferred_language }}</td>
+            <td>
+                <?php
+
+                $style = $UserData->team_style;
+                if($style == 'dontcare')
+                    echo "Don't Care";
+                else
+                    echo ucfirst($style);
+                ?>
+            </td>
+            <td>
+                <?php
+                    $language = $UserData->preferred_language;
+                    if($language == 'c')
+                        echo "C/C++";
+                    elseif($language == 'java')
+                        echo ucfirst($language);
+                    elseif($language == 'python')
+                        echo ucfirst($language);
+                ?>
+            </td>
             <td>{{ $UserData->taken_programming_class }}</td>
             <td><?php
                 if($UserData->taken_algorithms )

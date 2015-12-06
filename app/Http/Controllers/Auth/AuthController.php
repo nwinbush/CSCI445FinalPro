@@ -71,7 +71,7 @@ class AuthController extends Controller
         UserData::create([
             'name' => $user->name,
             'id' => $user->id,
-            'isAdmin' => 0
+            'isAdmin' => 0,
         ]);
 
         return $user;

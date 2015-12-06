@@ -10,7 +10,7 @@ class UserData extends Model
 
     protected $table = 'UserData';
 
-    protected $fillable = [ 'name', 'preferred_language', 'team_style', 'team_id', 'user_id', 'taken_algorithms', 'taken_programming_class', 'isAdmin'];
+    protected $fillable = [ 'name', 'preferred_language', 'team_style', 'team_id', 'id', 'taken_algorithms', 'taken_programming_class', 'isAdmin'];
 
     public function classesTaken(){
         return $this->hasMany('App\ClassesTaken');

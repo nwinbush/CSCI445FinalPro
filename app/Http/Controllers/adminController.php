@@ -12,14 +12,21 @@ use App\Http\Middleware\Admin;
 use Request;
 use Input;
 
+
+
 class adminController extends Controller
 {
     /**
      * adminController constructor.
      */
+    public $teamsMade;
+    public $teams;
+
     public function __construct()
     {
-        //$this->middleware('admin');
+        //$this-
+        $teamsMade = 0;
+        $teams = array();
     }
 
     /**
@@ -99,54 +106,32 @@ class adminController extends Controller
     }
 
     public function teamPage(){
-        $students = UserData::orderBy('team_id')->get();
+
+        $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
+        $students = UserData::where('isAdmin', '=', false)->orderBy('team_id')->get();
+
         //$thing =  head($students->toArray());
         //return $students->first()->team_id;
 
 
 
-        return view('adminTeamView', compact('students'));
-        $users = UserData::orderBy('name')->get();
-        return $users;
+        return view('adminTeamView', compact('students', 'UserData'));
 
     }
 
 
     public function generateTeams()
     {
+
         $maxPerTeam = Input::get('mMax');
         $minPerTeam = Input::get('mMin');
-        $studentCount = UserData::count();
-        $totTeams = $studentCount/$maxPerTeam;
-        if($studentCount % $maxPerTeam){
-            $totTeams++;
-        }
+        //creates initial teams
+        $this->makeInitTeams('social', $maxPerTeam);
+        $this->makeInitTeams('competitive', $maxPerTeam);
+        $this->makeInitTeams('dontcare', $maxPerTeam);
+        //Makes sure teams are not below min count
 
-
-        $totTeams = intval($totTeams);
-
-        //echo $totTeams;
-        $students = UserData::all();
-        $teamsMade = 0;
-        $sAdded = 0;
-
-        $teams = array();
-
-        while($teamsMade < $totTeams){
-            $teamsMade++; //This will be the same as the Team_id
-            $mAdded=0;
-
-            while($mAdded < $maxPerTeam && $sAdded < $studentCount){
-                $mAdded++;
-
-                $students[$sAdded]->update(['team_id' => $teamsMade]);
-                $sAdded++;
-            }
-            $teams[$teamsMade] = $mAdded;
-
-        }
-
-        foreach($teams as $team => $mCount)
+        /*foreach($teams as $team => $mCount)
         {
             while($mCount < $minPerTeam)
             {
@@ -163,11 +148,75 @@ class adminController extends Controller
                     }
                 }
             }
-        }
+        }*/
 
         //print_r($teams);
-        $students = UserData::orderBy('team_id')->get();
-        return view('adminTeamView', compact('students'));
+        $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
+        $students = UserData::where('isAdmin', '=', false)->orderBy('team_id')->get();
+        return view('adminTeamView', compact('students', 'UserData'));
 
+    }
+
+    public function teamStyleCount($style)
+    {
+        return UserData::where('isAdmin', '=', false)->where('team_style', '=', $style)->count();
+    }
+    public function teamStyleSort($style)
+    {
+        return UserData::where('isAdmin', '=', false)->where('team_style', '=', $style)
+            ->orderby('taken_programming_class')->get();
+    }
+
+    public function classSort($students)
+    {
+        $classStudents = array();
+        foreach($students as $student)
+        {
+            array_push($classStudents, $student);
+        }
+
+
+        shuffle($classStudents);
+
+        return $classStudents;
+    }
+
+    public function makeInitTeams($style, $maxPerTeam)
+    {
+        $count = $this->teamStyleCount($style);
+
+
+        $teams = $count/$maxPerTeam;
+        if($count % $maxPerTeam){
+            $teams++;
+        }
+
+        $totTeams = intval($teams);
+        //echo $socTeams;
+
+        $students = $this->teamStyleSort($style);
+
+        $teamsMade = 0;
+        $sAdded = 0;
+
+        $teams = array();
+        $students = $this->classSort($students);
+        //print_r($socStudents);
+
+        //Creates Initial Teams
+        while($teamsMade < $totTeams){
+            $teamsMade++; //This will be the same as the Team_id
+            $mAdded=0;
+
+            while($mAdded < $maxPerTeam && $sAdded < $count){
+                $mAdded++;
+
+                $students[$sAdded]->update(['team_id' => $teamsMade]);
+                $sAdded++;
+            }
+            $teams[$teamsMade] = $mAdded;
+        }
+
+        return $students;
     }
 }

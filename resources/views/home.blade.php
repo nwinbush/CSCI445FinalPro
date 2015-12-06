@@ -18,11 +18,29 @@
                         </div>
 
                         <div class="row">
-                            <label class="col-md-4 control-label">Preferred Language</label>{{ $UserData->preferred_language }}
+                            <label class="col-md-4 control-label">Preferred Language</label>
+                            <?php
+
+                                $language = $UserData->preferred_language;
+                                if($language == 'c')
+                                    echo "C/C++";
+                                elseif($language == 'java')
+                                    echo ucfirst($language);
+                                elseif($language == 'python')
+                                    echo ucfirst($language);
+                            ?>
                         </div>
 
                         <div class="row">
-                            <label class="col-md-4 control-label">Team Style</label>{{ $UserData->team_style }}
+                            <label class="col-md-4 control-label">Team Style</label>
+                            <?php
+
+                                $style = $UserData->team_style;
+                                if($style == 'dontcare')
+                                    echo "Don't Care";
+                                else
+                                    echo ucfirst($style);
+                            ?>
                         </div>
 
                         <div class="row">

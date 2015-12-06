@@ -123,13 +123,11 @@ class UserController extends Controller
     public function home(){
         //return "HELLO";
         //$UserData = UserData::findOrFail(Auth::user()->id);
-
-
         $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
 
         if ($UserData -> isAdmin) {
-            $students = UserData::orderBy('team_id')->get();
-            return view('adminTeamView', compact('students'));
+            $students = UserData::where('isAdmin', '=', false)->orderBy('team_id')->get();
+            return view('adminTeamView', compact('students', 'UserData'));
         }
         return view('home', compact('UserData'));
 
