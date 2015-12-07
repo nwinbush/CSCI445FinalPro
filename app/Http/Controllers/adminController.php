@@ -184,6 +184,7 @@ class adminController extends Controller
             }
 
             $totTeams = intval($totTeams);
+            $this->countCurrentTeams();
             $totTeams += $teamsMade;
             //echo $socTeams;
 
@@ -224,7 +225,7 @@ class adminController extends Controller
         $teams = array();
         foreach($students as $student)
         {
-            if($student->team_id != $currentTeam) {
+            if($student->team_id != $currentTeam || $student->team_id == false) {
                 $currentTeam = $student->team_id;
                 $teams[$currentTeam]=0;
             }
@@ -252,5 +253,24 @@ class adminController extends Controller
                 }
             }
         }
+    }
+
+    public function countCurrentTeams()
+    {
+        global $teamsMade,$teams;
+        $students = UserData::where('isAdmin', false)->where('team_id', '>', 0)->orderby('team_id')->get();
+
+        $currentTeam = 0;
+        foreach($students as $student)
+        {
+            if($student->team_id != $currentTeam)
+            {
+                $currentTeam++;
+                $teams[$currentTeam]=0;
+            }
+            $teams[$currentTeam]++;
+        }
+
+        $teamsMade = $currentTeam;
     }
 }

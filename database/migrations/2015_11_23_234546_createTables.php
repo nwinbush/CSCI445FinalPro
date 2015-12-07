@@ -33,7 +33,7 @@ class CreateTables extends Migration
             $table->string('name');
         });
         Schema::create('UserData', function (Blueprint $table) {
-            $table->integer('id')->references('id')->on('users');
+            $table->integer('id')->references('id')->on('users')->unique();
             $table->string('name');
             $table->string('preferred_language')->references('languages')->on('language')->nullable();
             $table->string('team_style')->references('teamStyle')->on('style')->nullable();

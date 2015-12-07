@@ -5,8 +5,8 @@
     <h1>{{$UserData->name}}</h1>
 
     <br>
-    <?php $currentTeam = $students->first()->team_id; ?>
-    <h1><?php if(empty($currentTeam)){ ?>
+    <?php $currentTeam = $students->first()->team_id;
+        if(empty($currentTeam)){ ?>
         <div class="panel-body">
             <form class="form-horizontal" role="form" method="POST" action="admin">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/
@@ -21,13 +21,12 @@
                 {!! Form::submit('Generate Teams', array('class' => 'btn btn-primary form-control', 'style' => 'width:250px; ')) !!}
             </form>
         </div>
-        <?php
-            echo "Students not on a team";
+    <?php
+            echo "<h1>Students not on a team</h1>";
         } else{
-                echo "Team ".$currentTeam;
-        }?>
-    </h1>
-
+            echo "Team ".$currentTeam;
+        }
+    ?>
 
     <th>Name</th>
     <th>Team id</th>
