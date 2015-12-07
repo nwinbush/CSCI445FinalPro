@@ -34,6 +34,7 @@
     <th>Preferred Language</th>
     <th>Highest Programming Class Taken</th>
     <th>Taken Algorithms</th>
+    <th>View Student</th>
     </tr>
 
     <br>
@@ -52,6 +53,7 @@
                 <th>Preferred Language</th>
                 <th>Highest Programming Class Taken</th>
                 <th>Taken Algorithms</th>
+                <th>View Student</th>
                 </tr>";
 
             }
@@ -93,6 +95,7 @@
                     echo "No";
                 ?>
             </td>
+            <td><a href="{{ action('admincontroller@viewStudent', [$UserData->id]) }}" class="btn btn-primary">Show Student</a></td>
         </tr>
     @endforeach
 </table>

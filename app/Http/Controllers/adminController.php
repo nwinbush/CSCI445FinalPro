@@ -273,4 +273,10 @@ class adminController extends Controller
 
         $teamsMade = $currentTeam;
     }
+
+    public function viewStudent($id){
+        $userData = UserData::findOrFail($id);
+        $numTeams = $this->countCurrentTeams();
+        return view('studentView', compact('userData', 'numTeams'));
+    }
 }

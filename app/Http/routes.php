@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('edit', 'UserController@updater');
     Route::get('admin', 'adminController@teamPage');
     Route::post('admin', 'adminController@generateTeams');
+    Route::get('admin/student/{id}', 'admincontroller@viewStudent');
 
 });
 Route::group(['middleware' => 'guest'], function () {
