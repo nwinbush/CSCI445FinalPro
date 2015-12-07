@@ -57,18 +57,13 @@
                             ?>
                         </div>
 
-                        <div class="dropdown">
-                            <select name="cars">
-                              <option value="volvo">Volvo</option>
-                              <option value="saab">Saab</option>
-                              <option value="fiat">Fiat</option>
-                              <option value="audi">Audi</option>
-                            </select>
-                        </div>
+                        {!! Form::select('team_name', array('1' => '1', '2' => '2', '3' => '3')) !!}
 
-                        <div class="row" style="text-align: center;">
-                            <a href="edit" class="btn btn-primary" style="margin: 0 auto;">Edit Info</a></td>
+                       <!--  <div class="row" style="text-align: center;">
+                            <a href="submit" class="btn btn-primary" style="margin: 0 auto;"></a></td>
                         </div>
+ -->
+                        {!! Form::submit('Change Team', ['class' => 'btn btn-primary form-control']) !!}
 
 
                     </div>
