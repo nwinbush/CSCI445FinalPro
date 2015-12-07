@@ -3,26 +3,28 @@
 @section('content')
 <table class="table table-striped table-bordered">
     <h1>{{$UserData->name}}</h1>
-    <div class="panel-body">
-        <form class="form-horizontal" role="form" method="POST" action="admin">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}"/
-            <div style="vertical-align:middle; line-height:2em; margin:10px;">
-                <label style="float:left; margin-right: 10px;">Max Members Per Team</label>
-                {!!Form::selectRange('mMax', 4, 6, null, ['style' => 'width:50px;'])!!}
-            </div>
-            <div style="vertical-align:middle; line-height:2em; margin: 10px;">
-                <label style="float:left; margin-right: 16px;">Min Members Per Team</label>
-                {!!Form::selectRange('mMin', 2, 4, null, ['style' => 'margin-left:3px; width:50px;'])!!}
-            </div>
-            {!! Form::submit('Generate Teams', array('class' => 'btn btn-primary form-control', 'style' => 'width:250px; ')) !!}
-        </form>
-    </div>
+
     <br>
     <?php $currentTeam = $students->first()->team_id; ?>
-    <h1><?php if(empty($currentTeam)){
+    <h1><?php if(empty($currentTeam)){ ?>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="POST" action="admin">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}"/
+                    <div style="vertical-align:middle; line-height:2em; margin:10px;">
+                <label style="float:left; margin-right: 10px;">Max Members Per Team</label>
+                {!!Form::selectRange('mMax', 4, 6, null, ['style' => 'width:50px;'])!!}
+                </div>
+                <div style="vertical-align:middle; line-height:2em; margin: 10px;">
+                    <label style="float:left; margin-right: 16px;">Min Members Per Team</label>
+                    {!!Form::selectRange('mMin', 2, 4, null, ['style' => 'margin-left:3px; width:50px;'])!!}
+                </div>
+                {!! Form::submit('Generate Teams', array('class' => 'btn btn-primary form-control', 'style' => 'width:250px; ')) !!}
+            </form>
+        </div>
+        <?php
             echo "Students not on a team";
         } else{
-                echo "Team " + $currentTeam;
+                echo "Team ".$currentTeam;
         }?>
     </h1>
 
