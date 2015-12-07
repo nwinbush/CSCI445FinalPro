@@ -24,7 +24,7 @@
     <?php
             echo "<h1>Students not on a team</h1>";
         } else{
-            echo "Team ".$currentTeam;
+            echo "<h1>Team ".$currentTeam."</h1>";
         }
     ?>
 
