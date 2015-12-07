@@ -123,45 +123,23 @@ class adminController extends Controller
 
     public function generateTeams()
     {
-        global $teamsMade,$teams;
+        global $teamsMade;
         $teamsMade = 0;
 
         $maxPerTeam = Input::get('mMax');
         $minPerTeam = Input::get('mMin');
+
+
         //creates initial teams
         $this->makeInitTeams('social', $maxPerTeam);
         $this->makeInitTeams('competitive', $maxPerTeam);
         $this->makeInitTeams('dontcare', $maxPerTeam);
-        //Makes sure teams are not below min count
 
-        $students = UserData::where('isAdmin', false)->orderby('team_id')->get();
-        $currentTeam = 0;
-        $teams = array();
-        foreach($students as $student)
-        {
-            if($student->team_id != $currentTeam) {
-                $currentTeam = $student->team_id;
-                $teams[$currentTeam]=0;
-            }
-            $teams[$currentTeam]++;
-        }
-        if($teams) {
-            foreach ($teams as $team => $mCount) {
-                while ($mCount < $minPerTeam) {
-                    foreach ($teams as $tTeam => $tmCount) {
-                        while ($tmCount > $minPerTeam && $mCount < $minPerTeam) {
-                            $UserData = UserData::firstOrNew(['team_id' => $tTeam]);
-                            $UserData->update(['team_id' => $team]);
-                            $tmCount--;
-                            $mCount++;
-                            $teams[$team]++;
-                            $teams[$tTeam]--;
-                        }
-                    }
-                }
-            }
-        }
+        //creates Teams Array from teams made
+        $this->teamsArray();
 
+        //checks the min value and corrects team sizes accordingly
+        $this->checkMin($minPerTeam);
 
         //print_r($teams);
         $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
@@ -236,5 +214,43 @@ class adminController extends Controller
         }
         return null;
 
+    }
+
+    public function teamsArray()
+    {
+        global $teams;
+        $students = UserData::where('isAdmin', false)->orderby('team_id')->get();
+        $currentTeam = 0;
+        $teams = array();
+        foreach($students as $student)
+        {
+            if($student->team_id != $currentTeam) {
+                $currentTeam = $student->team_id;
+                $teams[$currentTeam]=0;
+            }
+            $teams[$currentTeam]++;
+        }
+    }
+
+    public function checkMin($minPerTeam)
+    {
+        global $teams;
+
+        if($teams) {
+            foreach ($teams as $team => $mCount) {
+                while ($mCount < $minPerTeam) {
+                    foreach ($teams as $tTeam => $tmCount) {
+                        while ($tmCount > $minPerTeam && $mCount < $minPerTeam) {
+                            $UserData = UserData::firstOrNew(['team_id' => $tTeam]);
+                            $UserData->update(['team_id' => $team]);
+                            $tmCount--;
+                            $mCount++;
+                            $teams[$team]++;
+                            $teams[$tTeam]--;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
