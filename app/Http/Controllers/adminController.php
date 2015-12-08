@@ -239,12 +239,12 @@ class adminController extends Controller
 
         if($teams) {
             foreach ($teams as $team => $mCount) {
-                while ($mCount < $minPerTeam) {
+                while ($mCount < $minPerTeam && $mCount != 0) {
                     echo $team." Count:".$mCount."<br>";
                     foreach ($teams as $tTeam => $tmCount) {
                         //echo $tTeam." Count:".$tmCount."<br>";
 
-                        if (($mCount + $tmCount) <= $maxPerTeam && $team != $tTeam) {
+                        if (($mCount + $tmCount) <= $maxPerTeam && $team != $tTeam && $mCount != 0) {
                             echo $maxPerTeam."<br>";
                             echo $tTeam . " Count:" . $tmCount . "<br>";
                             echo "here.<br>";
@@ -259,17 +259,18 @@ class adminController extends Controller
                         }
                     }
 
-                    foreach ($teams as $tTeam => $tmCount)
-                    {
-                        while ($tmCount > $minPerTeam && $mCount < $minPerTeam) {
-                            $UserData = UserData::firstOrNew(['team_id' => $tTeam]);
-                            $UserData->update(['team_id' => $team]);
-                            $tmCount--;
-                            $mCount++;
-                            $teams[$team]++;
-                            $teams[$tTeam]--;
-                        }
+                    if($mCount < $minPerTeam && $mCount != 0) {
+                        foreach ($teams as $tTeam => $tmCount) {
+                            while ($tmCount > $minPerTeam && $mCount < $minPerTeam) {
+                                $UserData = UserData::firstOrNew(['team_id' => $tTeam]);
+                                $UserData->update(['team_id' => $team]);
+                                $tmCount--;
+                                $mCount++;
+                                $teams[$team]++;
+                                $teams[$tTeam]--;
+                            }
 
+                        }
                     }
                 }
             }
