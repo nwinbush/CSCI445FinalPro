@@ -2,7 +2,7 @@
 
 @section('content')
 <table class="table table-striped table-bordered">
-    <h1>{{$UserData->name}}</h1>
+    <h1>Administering User: {{$UserData->name}}</h1>
 
     <br>
     <?php $currentTeam = $students->first()->team_id;
@@ -24,12 +24,11 @@
     <?php
             echo "<h1>Students not on a team</h1>";
         } else{
-            echo "Team ".$currentTeam;
+            echo "<h1>Team ".$currentTeam."</h1>";
         }
     ?>
 
     <th>Name</th>
-    <th>Team id</th>
     <th>Team style</th>
     <th>Preferred Language</th>
     <th>Highest Programming Class Taken</th>
@@ -48,7 +47,6 @@
                 <table class='table table-striped table-bordered'>
                 <tr>
                 <th>Name</th>
-                <th>Team id</th>
                 <th>Team style</th>
                 <th>Preferred Language</th>
                 <th>Highest Programming Class Taken</th>
@@ -63,7 +61,6 @@
 
         <tr>
             <td>{{ $UserData->name }}</td>
-            <td>{{ $UserData->team_id }}</td>
             <td>
                 <?php
 
