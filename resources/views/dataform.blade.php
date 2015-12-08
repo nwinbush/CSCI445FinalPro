@@ -25,7 +25,7 @@
                             <br>
                             <div>
                                 <label style="margin-right: 15px; margin-bottom: 20px;">Preferred Language</label>
-                                {!! Form::select('preferred_language', array('c' => 'C/C++', 'java' => 'Java', 'python' => 'Python')) !!}
+                                {!! Form::select('preferred_language', array('c' => 'C/C++', 'java' => 'Java', 'python' => 'Python'), $UserData->preferred_language) !!}
 
                             </div>
 
@@ -34,7 +34,7 @@
                                 <label style="float:left;">Taken Programming classes up to:</label>
                                 <div style="float:left; position: relative; left: 55px;">
 
-                                    {!! Form::select('taken_programming_class', array('261' => 'CSCI 261', '262' => 'CSCI 262', '306' => 'CSCI 306')) !!}
+                                    {!! Form::select('taken_programming_class', array('261' => 'CSCI 261', '262' => 'CSCI 262', '306' => 'CSCI 306'), $UserData->taken_programming_class) !!}
                                 </div>
                             </div>
 
@@ -44,7 +44,7 @@
                             <div>
                                 <label style="float:left;">Taken Algorithms?</label>
                                 <div style="float:left; position: relative; left: 55px;">
-                                    {!! Form::checkbox('taken_algorithms', true) !!}
+                                    {!! Form::checkbox('taken_algorithms', true, $UserData->taken_algorithms) !!}
                                 </div>
                             </div>
 
@@ -53,7 +53,7 @@
                             <div>
                                 <label style="float:left;">Team Style</label>
                                 <div style="float:left; position: relative; left:78px; ">
-                                    {!! Form::select('team_style', array('social' => 'Social Team', 'competitive' => 'Competitive Team', "dontcare" => "Don't care")) !!}
+                                    {!! Form::select('team_style', array('social' => 'Social Team', 'competitive' => 'Competitive Team', "dontcare" => "Don't care"), $UserData->team_style) !!}
                                 </div>
                             </div>
                             <br>
