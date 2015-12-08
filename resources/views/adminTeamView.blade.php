@@ -104,7 +104,7 @@
                     echo "No";
                 ?>
             </td>
-            <td><a href="{{ action('admincontroller@viewStudent', [$UserData->id]) }}" class="btn btn-primary">Show Student</a></td>
+            <td><a href="{{ action('adminController@viewStudent', [$UserData->id]) }}" class="btn btn-primary">Show Student</a></td>
         </tr>
     @endforeach
 </table>
