@@ -13,9 +13,7 @@
                         <div class="row">
                             <label class="col-md-4 control-label">Name</label>{{ $UserData->name }}
                         </div>
-                        <div class="row">
-                            <label class="col-md-4 control-label">Team</label>{{ $UserData->team_id }}
-                        </div>
+
 
                         <div class="row">
                             <label class="col-md-4 control-label">Preferred Language</label>
@@ -28,6 +26,8 @@
                                     echo ucfirst($language);
                                 elseif($language == 'python')
                                     echo ucfirst($language);
+                                else 
+                                    echo $language;
                             ?>
                         </div>
 
@@ -56,14 +56,23 @@
                                     echo "No";
                             ?>
                         </div>
+                        <div class="row">
+                            <label class="col-md-4 control-label">Current Team</label>{{ $UserData->team_id }}
+                        </div>
+                        <form method="POST">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                        {!! Form::select('team_name', array('1' => '1', '2' => '2', '3' => '3')) !!}
+                            <div class="row">
+                                <label class="col-md-4 control-label">New Team</label> {!! Form::select('team_id', $teamArray, $UserData->team_id) !!}
+                            </div>
+
 
                        <!--  <div class="row" style="text-align: center;">
                             <a href="submit" class="btn btn-primary" style="margin: 0 auto;"></a></td>
                         </div>
  -->
                         {!! Form::submit('Change Team', ['class' => 'btn btn-primary form-control']) !!}
+                            </form>
 
 
                     </div>

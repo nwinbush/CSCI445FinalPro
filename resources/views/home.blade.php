@@ -57,14 +57,6 @@
                             ?>
                         </div>
 
-                        <div class="dropdown">
-                            <select name="cars">
-                              <option value="volvo">Volvo</option>
-                              <option value="saab">Saab</option>
-                              <option value="fiat">Fiat</option>
-                              <option value="audi">Audi</option>
-                            </select>
-                        </div>
 
                         <div class="row" style="text-align: center;">
                             <a href="edit" class="btn btn-primary" style="margin: 0 auto;">Edit Info</a></td>

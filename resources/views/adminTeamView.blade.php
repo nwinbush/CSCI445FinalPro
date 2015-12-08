@@ -2,7 +2,7 @@
 
 @section('content')
 <table class="table table-striped table-bordered">
-    <h1>{{$UserData->name}}</h1>
+    <h1>Administering User: {{$UserData->name}}</h1>
 
     <br>
     <?php $currentTeam = $students->first()->team_id;
@@ -29,11 +29,11 @@
     ?>
 
     <th>Name</th>
-    <th>Team id</th>
     <th>Team style</th>
     <th>Preferred Language</th>
     <th>Highest Programming Class Taken</th>
     <th>Taken Algorithms</th>
+    <th>View Student</th>
     </tr>
 
     <br>
@@ -47,11 +47,11 @@
                 <table class='table table-striped table-bordered'>
                 <tr>
                 <th>Name</th>
-                <th>Team id</th>
                 <th>Team style</th>
                 <th>Preferred Language</th>
                 <th>Highest Programming Class Taken</th>
                 <th>Taken Algorithms</th>
+                <th>View Student</th>
                 </tr>";
 
             }
@@ -61,7 +61,6 @@
 
         <tr>
             <td>{{ $UserData->name }}</td>
-            <td>{{ $UserData->team_id }}</td>
             <td>
                 <?php
 
@@ -93,6 +92,7 @@
                     echo "No";
                 ?>
             </td>
+            <td><a href="{{ action('admincontroller@viewStudent', [$UserData->id]) }}" class="btn btn-primary">Show Student</a></td>
         </tr>
     @endforeach
 </table>

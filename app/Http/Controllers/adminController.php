@@ -9,7 +9,8 @@ use App\Http\Controllers\Controller;
 use App\UserData;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\Admin;
-use Request;
+//use Request;
+use Illuminate\Http\Request;
 use Input;
 
 
@@ -26,8 +27,7 @@ class adminController extends Controller
 
     public function __construct()
     {
-        //$this-
-
+        $this->middleware('admin');
     }
 
     /**
@@ -295,4 +295,27 @@ class adminController extends Controller
 
         $teamsMade = $currentTeam;
     }
+
+    public function viewStudent($id){
+        $this->countCurrentTeams();
+        $UserData = UserData::findOrFail($id);
+
+        global $teamsMade, $teamArray;
+        for($i = 1; $i < $teamsMade + 1; $i++){
+            //$array = array_add($array, 'key', 'value');
+            $teamArray = array_add($teamArray, $i, strval ( $i ));
+        }
+        $teamArray = array_add($teamArray, $i, "New Team");
+        //return $teamArray;
+        return view('studentView', compact('UserData', 'teamArray'));
+    }
+
+    public function changeStudentTeam($id, request $request){
+        $UserData = UserData::findOrFail($id);
+        //return $UserData;
+        $UserData->update($request->all());
+        return $this->teamPage();
+
+    }
+
 }
