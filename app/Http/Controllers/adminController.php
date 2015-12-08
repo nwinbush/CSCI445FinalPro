@@ -12,6 +12,7 @@ use App\Http\Middleware\Admin;
 //use Request;
 use Illuminate\Http\Request;
 use Input;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -35,6 +36,7 @@ class adminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
 
@@ -121,13 +123,25 @@ class adminController extends Controller
     }
 
 
-    public function generateTeams()
+    public function generateTeams(Request $request)
     {
         global $teamsMade;
         $teamsMade = 0;
 
+        $rules = [
+            'mMin' => 'required|integer',
+            'mMax' => 'required|integer|greater_than_field:mMin'
+        ];
+
+        $this->validate($request, $rules, array(["Check Min and Max Values"]));
+
         $maxPerTeam = Input::get('mMax');
         $minPerTeam = Input::get('mMin');
+
+        if($minPerTeam > $maxPerTeam)
+        {
+
+        }
 
 
         //creates initial teams
@@ -240,14 +254,14 @@ class adminController extends Controller
         if($teams) {
             foreach ($teams as $team => $mCount) {
                 while ($mCount < $minPerTeam && $mCount != 0) {
-                    echo $team." Count:".$mCount."<br>";
+                    //echo $team." Count:".$mCount."<br>";
                     foreach ($teams as $tTeam => $tmCount) {
                         //echo $tTeam." Count:".$tmCount."<br>";
 
                         if (($mCount + $tmCount) <= $maxPerTeam && $team != $tTeam && $mCount != 0) {
-                            echo $maxPerTeam."<br>";
+                            /*echo $maxPerTeam."<br>";
                             echo $tTeam . " Count:" . $tmCount . "<br>";
-                            echo "here.<br>";
+                            echo "here.<br>";*/
                             $moveStudents = UserData::where('team_id', $team)->get();
                             foreach ($moveStudents as $mStudent) {
                                 $mStudent->update(['team_id' => $tTeam]);

@@ -6,17 +6,29 @@
 
     <br>
     <?php $currentTeam = $students->first()->team_id;
+
         if(empty($currentTeam)){ ?>
         <div class="panel-body">
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <form class="form-horizontal" role="form" method="POST" action="admin">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/
                     <div style="vertical-align:middle; line-height:2em; margin:10px;">
                 <label style="float:left; margin-right: 10px;">Max Members Per Team</label>
-                {!!Form::selectRange('mMax', 4, 6, null, ['style' => 'width:50px;'])!!}
+                {!!Form::selectRange('mMax', 2, 10, null, ['style' => 'width:50px;'])!!}
                 </div>
                 <div style="vertical-align:middle; line-height:2em; margin: 10px;">
                     <label style="float:left; margin-right: 16px;">Min Members Per Team</label>
-                    {!!Form::selectRange('mMin', 2, 4, null, ['style' => 'margin-left:3px; width:50px;'])!!}
+
+                    {!!Form::selectRange('mMin', 2, 10, null, ['style' => 'margin-left:3px; width:50px;'])!!}
                 </div>
                 {!! Form::submit('Generate Teams', array('class' => 'btn btn-primary form-control', 'style' => 'width:250px; ')) !!}
             </form>

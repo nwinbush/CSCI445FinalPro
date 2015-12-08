@@ -6,6 +6,7 @@
         .navbar-default {
             background-color: #60B632;
             border-color: #E7E7E7;
+            padding-right: 20px;
         }
         .navbar-default .navbar-brand {
             color: #000000;
@@ -17,11 +18,19 @@
 
 <nav class="navbar navbar-default">
     <div class="navbar-header">
-        <a class="navbar-brand" href="{{ URL::to('books') }}">CS Connect Competition Group</a>
+        <a class="navbar-brand" href="{{ URL::to('home') }}">CS Connect Competition Group</a>
     </div>
     <ul class="nav navbar-nav">
-        <li><a href="{{ URL::to('auth/login') }}">Login</a></li>
-        <li><a href="{{ URL::to('auth/logout') }}">Logout</a></li>
+        <li><a href="{{ URL::to('home') }}">Home</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        @if (Auth::guest())
+            <li><button type='button' class='btn btn-default navbar-btn'><a href='{{ URL::to('auth/register') }}'>Register</a></button></li>
+            <li><button type='button' class='btn btn-default navbar-btn'><a href='{{ URL::to('auth/login') }}'>Login</a></button></li>
+        @else
+            <li><button type='button' class='btn btn-default navbar-btn'><a href='{{ URL::to('auth/logout') }}'>Logout</a></button></li>
+        @endif
+
     </ul>
 </nav>
 
