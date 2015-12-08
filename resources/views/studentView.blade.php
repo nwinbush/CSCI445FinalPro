@@ -26,6 +26,8 @@
                                     echo ucfirst($language);
                                 elseif($language == 'python')
                                     echo ucfirst($language);
+                                else 
+                                    echo $language;
                             ?>
                         </div>
 
