@@ -139,7 +139,7 @@ class adminController extends Controller
         $this->teamsArray();
 
         //checks the min value and corrects team sizes accordingly
-        $this->checkMin($minPerTeam);
+        $this->checkMin($minPerTeam, $maxPerTeam);
 
         //print_r($teams);
         $UserData = UserData::firstOrNew(['id' => Auth::user()->id]);
@@ -233,21 +233,43 @@ class adminController extends Controller
         }
     }
 
-    public function checkMin($minPerTeam)
+    public function checkMin($minPerTeam, $maxPerTeam)
     {
         global $teams;
 
         if($teams) {
             foreach ($teams as $team => $mCount) {
-                while ($mCount < $minPerTeam) {
+                while ($mCount < $minPerTeam && $mCount != 0) {
+                    echo $team." Count:".$mCount."<br>";
                     foreach ($teams as $tTeam => $tmCount) {
-                        while ($tmCount > $minPerTeam && $mCount < $minPerTeam) {
-                            $UserData = UserData::firstOrNew(['team_id' => $tTeam]);
-                            $UserData->update(['team_id' => $team]);
-                            $tmCount--;
-                            $mCount++;
-                            $teams[$team]++;
-                            $teams[$tTeam]--;
+                        //echo $tTeam." Count:".$tmCount."<br>";
+
+                        if (($mCount + $tmCount) <= $maxPerTeam && $team != $tTeam && $mCount != 0) {
+                            echo $maxPerTeam."<br>";
+                            echo $tTeam . " Count:" . $tmCount . "<br>";
+                            echo "here.<br>";
+                            $moveStudents = UserData::where('team_id', $team)->get();
+                            foreach ($moveStudents as $mStudent) {
+                                $mStudent->update(['team_id' => $tTeam]);
+                                $tmCount++;
+                                $mCount--;
+                                $teams[$tTeam]++;
+                                $teams[$team]--;
+                            }
+                        }
+                    }
+
+                    if($mCount < $minPerTeam && $mCount != 0) {
+                        foreach ($teams as $tTeam => $tmCount) {
+                            while ($tmCount > $minPerTeam && $mCount < $minPerTeam) {
+                                $UserData = UserData::firstOrNew(['team_id' => $tTeam]);
+                                $UserData->update(['team_id' => $team]);
+                                $tmCount--;
+                                $mCount++;
+                                $teams[$team]++;
+                                $teams[$tTeam]--;
+                            }
+
                         }
                     }
                 }
