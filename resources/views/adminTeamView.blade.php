@@ -79,6 +79,11 @@
                 $style = $UserData->team_style;
                 if($style == 'dontcare')
                     echo "Don't Care";
+                else if(is_null($style))
+                {
+                    $UserData->update(['team_style' => 'dontcare']);
+                    echo "Don't Care";
+                }
                 else
                     echo ucfirst($style);
                 ?>
@@ -98,9 +103,7 @@
             <td><?php
                 if($UserData->taken_algorithms )
                     echo "Yes";
-                else if($UserData->taken_algorithms == false & $UserData->team_style == false)
-                    {}
-                else
+                else if(!is_null($UserData->taken_algorithms))
                     echo "No";
                 ?>
             </td>
