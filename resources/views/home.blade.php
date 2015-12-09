@@ -56,7 +56,7 @@
                             <?php
                                 if($UserData->taken_algorithms)
                                     echo "Yes";
-                                elseif($UserData->taken_algorithms != NULL)
+                                elseif(!is_null($UserData->taken_algorithms))
                                     echo "No";
                             ?>
                         </div>
