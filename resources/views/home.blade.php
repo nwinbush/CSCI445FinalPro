@@ -44,7 +44,11 @@
                         </div>
 
                         <div class="row">
-                            <label class="col-md-4 control-label">Taken Programming Classes up to</label>CSCI {{ $UserData->taken_programming_class }}
+                            <label class="col-md-4 control-label">Taken Programming Classes up to</label>
+                            @if($UserData->taken_programming_class != NULL)
+                                CSCI {{ $UserData->taken_programming_class }}
+                            @endif
+
                         </div>
 
                         <div class="row">
@@ -52,7 +56,7 @@
                             <?php
                                 if($UserData->taken_algorithms)
                                     echo "Yes";
-                                else
+                                elseif($UserData->taken_algorithms != NULL)
                                     echo "No";
                             ?>
                         </div>
