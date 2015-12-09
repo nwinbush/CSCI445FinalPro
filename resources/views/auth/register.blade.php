@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Welcome!</h1>
-    <h2>Not a member? Create and account! Or login with navbar link above.</h2>
+    <h2>Not a member? Create an account! Or login with navbar link above.</h2>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
